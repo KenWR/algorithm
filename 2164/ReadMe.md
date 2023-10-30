@@ -40,6 +40,7 @@ N이 주어졌을 때, 제일 마지막에 남게 되는 카드를 구하는 프
 # 풀이
 맞은 코드
 -
+
   #include <iostream>
   #include <list>
   using namespace std;
