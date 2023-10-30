@@ -152,29 +152,29 @@ temp라는 곳에 추가적으로 저장해서 작업을했는데 해당부분�
 #include <list>
 using namespace std;
 
-    int main()
-    {
-        int			card_num;				//카드 개수
-        list<int> 	card_pack;			    //카드팩
+int main()
+{
+    int			card_num;				//카드 개수
+    list<int> 	card_pack;			    //카드팩
 
-        //카드 팩 만들기
-        cin >> card_num;
-        while (card_num)
-    	{
-    		card_pack.push_front(card_num);
-    		card_num--;
-    	}
-
-        //카드 정리
-        while (card_pack.size() != 1)
-        {
-            card_pack.pop_front();
-    		card_pack.push_back(card_pack.front());
-    		card_pack.pop_front();
-        }
-    	cout << card_pack.front() << '\n';
-        return (0);
+    //카드 팩 만들기
+    cin >> card_num;
+    while (card_num)
+   	{
+        card_pack.push_front(card_num);
+    		  card_num--;
     }
+
+    //카드 정리
+    while (card_pack.size() != 1)
+    {
+        card_pack.pop_front();
+  		    card_pack.push_back(card_pack.front());
+  		    card_pack.pop_front();
+    }
+   	cout << card_pack.front() << '\n';
+    return (0);
+}
 ```
 
 시간복잡도와 효율
