@@ -153,8 +153,8 @@ using namespace std;
 
 int main()
 {
-    int			   card_num;				    //카드 개수
-    list<int> 	card_pack;			    //카드팩
+    int card_num;				    //카드 개수
+    list<int> card_pack;			    //카드팩
 
     //카드 팩 만들기
     cin >> card_num;
