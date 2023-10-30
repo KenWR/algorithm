@@ -1,4 +1,4 @@
-# BaekJoon
+# BaekJoon 양식
 ## 백준 문제 풀이
 
 # 문제
