@@ -108,7 +108,9 @@ stl의 list 는 기본적으로 linked list로 이루어져있다고 한다.
 
 참고 자료
 -
-<https://modoocode.com/177>
+
+문제 <https://www.acmicpc.net/problem/2164>
+stl list <https://modoocode.com/177>
 
 
 
