@@ -1,0 +1,72 @@
+#include <iostream>
+#include <list>
+#include <string>
+#include <stdlib.h>
+#define VISITED 'V'
+#define MAX_NODES 51
+using namespace std;
+
+int	    visited_dfs[MAX_NODES];
+int		count = 0;
+char    matrix[MAX_NODES][MAX_NODES];
+
+void	count_right(int	f, int s, int sec_idx)
+{
+	for (int i = 0; i < sec_idx; i++)
+	{
+		if (matrix[f][s + i] == '-')
+		{
+			matrix[f][s + i] = VISITED;
+		}
+		else
+			break ;
+	}
+}
+
+void	count_under(int	f, int s, int fir_idx)
+{
+	for (int i = 0; i < fir_idx; i++)
+	{
+		if (matrix[f + i][s] == '|')
+		{
+			matrix[f + i][s] = VISITED;
+		}
+		else
+			break ;
+	}
+}
+
+void	dfs(int fir_idx, int sec_idx, int par)
+{
+
+	if (matrix[i][j] == '-')
+	{
+		count_right(i, j, sec_idx);
+        count++;
+	}
+	else if (matrix[i][j] == '|')
+	{
+		count_under(i, j, fir_idx);
+        count++;
+	}
+
+}
+
+int main()
+{
+	int	      fir_idx, sec_idx;
+    string    floors;
+
+    cin >> fir_idx >> sec_idx;
+	for (int i = 0; i < fir_idx; i++)
+	{
+        cin >> floors;
+        for (int j = 0; j < sec_idx; j++)
+	    {
+		    matrix[i][j] = floors[j];
+	    }
+	}
+	dfs(fir_idx, sec_idx);
+	cout << count;
+	return (0);
+}

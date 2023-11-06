@@ -21,7 +21,6 @@ void	dfs(int node_num, int start)
 		if (matrix[start - 1][i] == 1 && visited_dfs[i + 1] != VISITED)
 			dfs(node_num, i + 1);
 	}
-
 }
 
 void	bfs(int node_num, int start)
