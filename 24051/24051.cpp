@@ -1,43 +1,42 @@
 #include <iostream>
-#include <vector>
 
-int selection_sort[10000];
+int	size_of_arr, save_times;
+int	arr[10002];
 
-	//	오름차순인지 확인
-int	check_asc(int arr_len)
+int	selection_sort()
 {
-	for (int i = 1; i < arr_len; i++)
+	int loc, new_item, count;
+
+	count = 0;
+	for (int i = 1; i < size_of_arr; i++)
 	{
-		if (selection_sort[i - 1] > selection_sort[i])
-			return (0);
+		loc = i - 1;
+		new_item = arr[i];
+		while (loc >= 0 && arr[loc] > new_item)
+		{
+			arr[loc + 1] = arr[loc];
+			count++;
+			if (count == save_times)
+				return (arr[loc + 1]);
+			loc--;
+		}
+		if (loc + 1 != i)
+		{
+			arr[loc + 1] = new_item;
+			count++;
+			if (count == save_times)
+				return (arr[loc + 1]);
+		}
 	}
-	return (1);
+	return (-1);
 }
 
 int main()
 {
-	int	arr_len, change_count, element, temp, times;
-	int	fir_out, sec_out;
-
-	times = 0; // 교환 횟수
-	std::cin >> arr_len >> change_count;
+	std::cin >> size_of_arr >> save_times;
 	// 배열 삽입
-	for (int i = 0; i < arr_len; i++)
-	{
-		std::cin >> element;
-		selection_sort[i] = element;
-	}
-
-
-
-
-	if (times < change_count)
-	{
-		std::cout << -1;
-		return (0);
-	}
-	std::cout << fir_out;
-	std::cout << ' ';
-	std::cout << sec_out;
+	for (int i = 0; i < size_of_arr; i++)
+		std::cin >> arr[i];
+	std::cout << selection_sort();
 	return (0);
 }
