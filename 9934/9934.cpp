@@ -1,25 +1,35 @@
 #include <iostream>
 
 static int cbt[1030];
-//1, 6, 4, 3, 5, 2, 7
-//3, 6, 2, 1, 4, 5, 7
 
-void	complete_binary_tree(int node_num)
+void	complete_binary_tree(int node_num, int k)
 {
-	if (node_num > 7)
+	if (node_num > (1<<k) - 1)
 		return ;
-	complete_binary_tree((node_num * 2));
+	complete_binary_tree(node_num * 2, k);
 	std::cin >> cbt[node_num];
-	complete_binary_tree((node_num * 2) + 1);
+	complete_binary_tree((node_num * 2) + 1, k);
 }
 
 int main()
 {
-	int	node_num = 3;
-	complete_binary_tree(1);
-	for (int i = 1; i <= 7; i++)
+	int	node_num = 1;
+	int	k;
+	int	a = 1;
+
+	std::ios::sync_with_stdio(false);
+	std::cin.tie(NULL);
+	std::cout.tie(NULL);
+
+	std::cin >> k;
+	complete_binary_tree(node_num, k);
+	for (int i = 1; i <= (1<<k) - 1; i++)
 	{
 		std::cout << cbt[i] << ' ';
-		if ()
+		if (1 && i == (1<<a) - 1)
+		{
+			std::cout << std::endl;
+			a++;
+		}
 	}
 }
