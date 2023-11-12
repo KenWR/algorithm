@@ -1,7 +1,8 @@
 #include <iostream>
 
 void hanoi(int n, int from, int temp, int to) {
-    if (n == 1) {
+    if (n == 1) 
+    {
         printf ("%d %d\n", from, to);
         return;
     }
@@ -11,15 +12,12 @@ void hanoi(int n, int from, int temp, int to) {
 }
 
 int main() {
-    long n;
+    int n;
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(NULL);
+    
     std::cin >> n;
-
-    if (n > 20) {
-        printf ((1 << n) - 1);
-    } else {
-        
-        hanoi(n, 1, 2, 3);
-    }
-
+    std::cout << (1 << n) - 1 << std::endl;
+    hanoi(n, 1, 2, 3);
     return 0;
 }
