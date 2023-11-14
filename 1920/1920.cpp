@@ -2,20 +2,27 @@
 #include <vector>
 
 int	N, M, i;
-std::vector<int> A;
+// std::vector<int> A;
+int	A[100005];
 
 int		partition(int start_idx, int end_idx);
 void	quick_sort(int start_idx, int end_idx);
 void	swap(int idx_1, int idx_2);
 int		binary_search(int n);
+bool	check(int idx, int num);
 
 int main(){
 	int	num;
 
+	std::ios::sync_with_stdio(false);
+	std::cin.tie(nullptr);
+	std::cout.tie(nullptr);
+
 	std::cin >> N;
 	for (int i = 0; i < N; i++){
 		std::cin >> num;
-		A.push_back(num);
+		// A.push_back(num);
+		A[i] = num;
 	}
 	quick_sort(0, N - 1);
 	std::cin >> M;
@@ -67,13 +74,19 @@ int    binary_search(int num){
 	right = N;
 	while (left + 1 < right){
 		mid = (left + right) / 2;
-		if (A[left] == A[mid]){
-
+		if (check(left, num) == check(mid, num)){
+			left = mid;
 		}
+		else
+			right = mid;
 	}
-	return (0);
+	if (A[left] == num)
+		return (true);
+	return (false);
 }
 
-bool	check(int idx){
-	A[idx]
+bool	check(int idx, int num){
+	if (A[idx] <= num)
+		return (true);
+	return (false);
 }
