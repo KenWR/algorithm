@@ -27,6 +27,7 @@ int main(){
 
 int binary_search(int card){
 	int mid, left = 0, right = N - 1, cnt = 0;
+	int	s_idx, b_idx;
 
 	while (left + 1 < right){
 		mid = (left + right) / 2;
@@ -37,17 +38,21 @@ int binary_search(int card){
 			right = mid;
 		}
 	}
+	b_idx = left;
 	if (right == N - 1 && cards[right] == card)
-		cnt++;
-	if (cards[left] == card){
-		while (left >= 0)
-		{
-			cnt++;
-			left--;
-			if(cards[left] != card){
-				return (cnt);
-			}
+		b_idx++;
+	left = 0, right = N - 1;
+	while (left + 1 < right){
+		mid = (left + right) / 2;
+		if (cards[left] < card && cards[mid] < card){
+			left = mid;
+		}
+		else {
+			right = mid;
 		}
 	}
-	return (cnt);
+	s_idx = left;
+	if (left == 0 && cards[left] == card)
+		s_idx--;
+	return (b_idx - s_idx);
 }
