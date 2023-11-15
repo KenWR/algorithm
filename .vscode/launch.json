@@ -7,10 +7,10 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug",
-            "program": "/mnt/c/Users/DSCOM/Document/baek/1920/a.out",
+            "name": "lldb",
+            "program": "/home/ken/baek/10816/a.out",
             "args": [],
-            "cwd": "/mnt/c/Users/DSCOM/Document/baek/1920"
+            "cwd": "/home/ken/baek/10816"
         }
     ]
 }
