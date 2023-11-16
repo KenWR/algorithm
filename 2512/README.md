@@ -37,11 +37,7 @@
 int main()
 ```
 
-in `code` sentence
-
 [keyword](######제목)
-
-[Contribution guidelines for this project](docs/CONTRIBUTING.md)
 
 [title](google.com)
 
@@ -61,8 +57,6 @@ X^2^
 
 3 spaces
 <br/>
-
->quote   
 
 <details>
 
