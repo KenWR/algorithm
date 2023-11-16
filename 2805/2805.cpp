@@ -7,7 +7,7 @@ int N, M, tree;
 std::vector<int> trees;
 
 int    binary_search();
-bool    cut(int idx);
+bool    cut(int height);
 
 int main() {
     std::ios::sync_with_stdio(false);
@@ -19,29 +19,31 @@ int main() {
         trees.push_back(tree);
     }
     std::sort(trees.begin(), trees.end());
-    std::cout << binary_search();
+    if (M == 0) {
+        std::cout << trees[N - 1];
+    }
+    else {
+        std::cout << binary_search();
+    }
 }
 
 int    binary_search() {
-    int down = 0, mid, up = trees[N - 1], result = 0;
+    int down = 0, mid, up = trees[N - 1];
     
     while (down + 1 < up) {
         mid = (down + up) / 2;
         if (cut(mid)) {
             down = mid;
-            result = down;
         }
         else {
             up = mid;
         }
     }
-    // if (cut(0))
-    //     result = 0;
-    return (result);
+    return (down);
 }
 
 bool    cut(int height) {
-    int sum = 0, cutted;
+    int sum = 0;
     for (int i = N - 1; i >= 0; i--) {
         if (trees[i] > height) {
             sum += trees[i] - height;
@@ -50,7 +52,7 @@ bool    cut(int height) {
             break;
         }
     }
-    if (sum >= M) {
+    if (sum >= M || sum < 0) {
         return (true);
     }
     else {
