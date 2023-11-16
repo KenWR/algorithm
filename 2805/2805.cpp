@@ -1,13 +1,14 @@
+#include <cstddef>
 #include <iostream>
 #include <algorithm>
 // #include <array>
 #include <vector>
 
-int N, M, tree;
+std::size_t N, M, tree;
 std::vector<int> trees;
 
-int    binary_search();
-bool    cut(int height);
+std::size_t    binary_search();
+bool    cut(std::size_t height);
 
 int main() {
     std::ios::sync_with_stdio(false);
@@ -27,8 +28,8 @@ int main() {
     }
 }
 
-int    binary_search() {
-    int down = 0, mid, up = trees[N - 1];
+std::size_t    binary_search() {
+    std::size_t down = 0, mid, up = trees[N - 1];
     
     while (down + 1 < up) {
         mid = (down + up) / 2;
@@ -42,8 +43,8 @@ int    binary_search() {
     return (down);
 }
 
-bool    cut(int height) {
-    int sum = 0;
+bool    cut(std::size_t height) {
+    std::size_t sum = 0;
     for (int i = N - 1; i >= 0; i--) {
         if (trees[i] > height) {
             sum += trees[i] - height;
@@ -52,7 +53,7 @@ bool    cut(int height) {
             break;
         }
     }
-    if (sum >= M || sum < 0) {
+    if (sum >= M) {
         return (true);
     }
     else {
