@@ -1,8 +1,10 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#define LOW true
+#define HIGH false
 
-int N, M, money;
+int N, M, money, highest;
 std::vector<int> plan;
 
 int     parametic_search();
@@ -16,14 +18,16 @@ int main() {
     std::cin >> N >> M;
     for (int i = 0; i < N; i++) {
         std::cin >> money;
+        if (money > highest) {
+            highest = money;
+        }
         plan.push_back(money);
     }
-    std::sort(plan.begin(), plan.end());
     std::cout << parametic_search();
 }
 
 int     parametic_search() {
-    int lower = 0, mid, upper = plan[N - 1];
+    int lower = 0, mid, upper = 20000;
 
     while (lower + 1 < upper) {
         mid = (lower + upper) / 2;
@@ -34,26 +38,26 @@ int     parametic_search() {
             upper = mid;
         }
     }
-    if (check(lower + 1))
-        return (lower + 1);
     return (lower);
 }
 
 bool check(int money) {
-    int result = 0, pocket = money;
+    int result = 0, pocket = 0;
 
     for (int i = 0; i < N; i++) {
-        if (plan[i] > pocket) {
+        if (plan[i] > money)
+            return LOW;
+        else if (plan[i] >= pocket) {
             pocket = money;
-            pocket -= money;
+            pocket -= plan[i];
             result++;
         }
         else {
-            pocket -= money;
+            pocket -= plan[i];
         }
     }
     if (result >= M) {
-        return true;
+        return LOW;
     }
-    return false;
+    return HIGH;
 }
