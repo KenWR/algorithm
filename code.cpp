@@ -1,61 +1,58 @@
-#include <array>
-#include <cstddef>
 #include <iostream>
-#include <utility>
 #include <vector>
 #include <algorithm>
+#define MAX 1000000000;
 
-int N, M, A, B, C; // 섬(노드)의 개수, 다리(간선)의 개수, (A 섬1, B 섬2, C 중량)도로;
-std::vector<int> weights;
-std::array<bool, 10001> visit;
-std::vector<std::pair<int, int>> islands[10001];
+int N, M, inchul, money, ocha, answer = MAX;
+std::vector<int> plan;
 
-
-void    search();
-void	dfs(int weight, int island);
+int	parametic_search();
 
 int main() {
-	std::pair<int, int> edge;
-
-	std::ios::sync_with_stdio(false);
+    std::ios::sync_with_stdio(false);
 	std::cin.tie(nullptr);
 	std::cout.tie(nullptr);
 
-	std::cin >> N >> M;
-	for (int i = 0; i < M; i++) {
-		std::cin >> A >> B >> C;
-		islands[A].push_back(std::make_pair(B, C));
-		islands[B].push_back(std::make_pair(A, C));
-		weights.push_back(C);
-	}
-	std::cin >> A >> B;
-	std::sort(weights.begin(), weights.end());
-	search();
+    std::cin >> N >> M;
+    for (int i = 0; i < N; i++) {
+        std::cin >> money;
+        plan.push_back(money);
+    }
+    std::cout << parametic_search();
 }
 
-void    search() {
-	int	begin = 0, mid, end = M - 1, answer = 0;
+int     parametic_search() {
+    int low = 0, mid, high = MAX;
 
-	while (begin <= end) {
-		mid = (begin + end) / 2;
-		visit = {0, };
-		dfs(weights[mid], A);
-		if (visit[B] == true) {
-			answer = std::max(answer, weights[mid]);
-			begin = mid + 1;
+	while (low <= high) {
+		mid = (low + high) / 2;
+		inchul = 1, ocha = 0;
+		money = mid;
+		for (int i = 0; i < N; i++) {
+			if (mid < plan[i]) {
+				inchul = M + 1;
+				break ;
+			}
+			else if (money >= plan[i]) {
+				money -= plan[i];
+				ocha++;
+			}
+			else {
+				money = mid;
+				money -= plan[i];
+				inchul++;
+			}
 		}
-		else {
-			end = mid - 1;
+		if (inchul <= M) {
+			if (inchul <= M <= inchul + ocha) {
+				answer = std::min(answer, mid);
+			}
+			high = mid - 1;
+		}
+		else if (inchul > M) {
+			low = mid + 1;
 		}
 	}
-	std::cout << answer;
+	return (answer);
 }
 
-void	dfs(int weight, int island) {
-	visit[island] = true;
-	for (int i = 0; i < islands[island].size(); i++) {
-		if (visit[islands[island][i].first] == false && islands[island][i].second >= weight) {
-			dfs(weight, islands[island][i].first);
-		}
-	}
-}
