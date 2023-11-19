@@ -8,9 +8,9 @@
             "type": "lldb",
             "request": "launch",
             "name": "lldb",
-            "program": "/home/ken/baek/3079/a.out",
+            "program": "/home/ken/baek/a.out",
             "args": [],
-            "cwd": "/home/ken/baek/3079"
+            "cwd": "/home/ken/baek"
         }
     ]
 }
