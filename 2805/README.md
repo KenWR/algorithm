@@ -141,7 +141,7 @@ bool    cut(int height) {
 	int sum = 0;
 	for (int i = N - 1; i >= 0; i--) {
 		if (trees[i] > height) {
-			// 문제가 생기는 부분
+			// !! 오버플로우
 			sum += trees[i] - height;
 		}
 		else {
@@ -188,8 +188,8 @@ bool			cut(std::size_t height);
 int main() {
 	// cin&cout 출력시간 단축
     std::ios::sync_with_stdio(false);
-	std::cin.tie(nullptr);
-	std::cout.tie(nullptr);
+    std::cin.tie(nullptr);
+    std::cout.tie(nullptr);
 
     std::cin >> N >> M;
 	// N 개 만큼의 나무를 배열에 삽입
@@ -236,7 +236,6 @@ bool    cut(std::size_t height) {
 	// 정렬된 나무들은 가장 큰 나무가 뒤에 있을테니
 	// 뒤에서부터 비교하여 차이값(잘라낸 나무)을 sum에 모은다.
     for (int i = N - 1; i >= 0; i--) {
-		// 정해진 길이보다 큰 나무가 없다면 반복문 탈출
         if (trees[i] > height) {
             sum += trees[i] - height;
         }
@@ -261,6 +260,10 @@ bool    cut(std::size_t height) {
 해당 배열을 정렬을 해주고   
 매개 변수 탐색으로 나무 길이를 기준으로 중간값으로 기준을 잡아 원하는 양 만큼의 나무의 M 을 얻을 수 있는 최소값을 얻기위해   
 check 함수가 true 와 false 를 교차하며 뱉어내거나 끝에 다다를때까지 반복을 돌려주어 가장 최소값인 down 을 출력해 준다.
+
+여기서 배운것은 이분탐색이란 세상 모든걸 반으로 나누는게 아니라 
+시간복잡도가 O(2n)인 상황에서 하나의  O(n) 이 정렬되어 있고 그 양이 일일이 대입하기 어려울경우에만
+반씩나누어 O(n log(n)) 을 만드는 것이다.
 
 #### 리팩토링
 ---
