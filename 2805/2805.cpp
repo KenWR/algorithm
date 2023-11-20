@@ -1,7 +1,6 @@
 #include <cstddef>
 #include <iostream>
 #include <algorithm>
-// #include <array>
 #include <vector>
 
 std::size_t N, M, tree;
@@ -41,6 +40,7 @@ std::size_t    binary_search() {
         }
     }
     return (down);
+    
 }
 
 bool    cut(std::size_t height) {

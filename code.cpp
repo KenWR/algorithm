@@ -1,58 +1,52 @@
 #include <iostream>
-#include <vector>
-#include <algorithm>
-#define MAX 1000000000;
+#include <array>
+#define BLUE true
+#define WHITE false
 
-int N, M, inchul, money, ocha, answer = MAX;
-std::vector<int> plan;
+int										N, num_white, num_blue;
+bool									color;
+std::array<std::array<bool, 130>, 130> 	confetti;
 
-int	parametic_search();
+void	divide_and_conquer(int	x, int y, int limit);
 
-int main() {
-    std::ios::sync_with_stdio(false);
+int	main() {
+	std::ios::sync_with_stdio(false);
 	std::cin.tie(nullptr);
 	std::cout.tie(nullptr);
 
-    std::cin >> N >> M;
-    for (int i = 0; i < N; i++) {
-        std::cin >> money;
-        plan.push_back(money);
-    }
-    std::cout << parametic_search();
-}
-
-int     parametic_search() {
-    int low = 0, mid, high = MAX;
-
-	while (low <= high) {
-		mid = (low + high) / 2;
-		inchul = 1, ocha = 0;
-		money = mid;
-		for (int i = 0; i < N; i++) {
-			if (mid < plan[i]) {
-				inchul = M + 1;
-				break ;
-			}
-			else if (money >= plan[i]) {
-				money -= plan[i];
-				ocha++;
-			}
-			else {
-				money = mid;
-				money -= plan[i];
-				inchul++;
-			}
-		}
-		if (inchul <= M) {
-			if (inchul <= M <= inchul + ocha) {
-				answer = std::min(answer, mid);
-			}
-			high = mid - 1;
-		}
-		else if (inchul > M) {
-			low = mid + 1;
+	std::cin >> N;
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++) {			
+			std::cin >> color;
+			confetti[i][j] = color;
 		}
 	}
-	return (answer);
+	divide_and_conquer(0, 0, N);
+	std::cout << num_white << std::endl;
+	std::cout << num_blue;
 }
 
+void	divide_and_conquer(int	x, int y, int limit) {
+	int		next_limit = limit / 2;
+	bool	now_color = confetti[x][y];
+	if (limit > 1) {
+		for (int i = 0; i < limit; i++) {
+			for (int j = 0; j < limit; j++) {
+				if (confetti[x + i][y + j] != now_color) {
+					divide_and_conquer(x, y, next_limit);
+					divide_and_conquer(x, y + next_limit / 2,next_limit);
+					divide_and_conquer(x + next_limit / 2, y, next_limit);
+					divide_and_conquer(x + next_limit / 2, y + next_limit / 2, next_limit);
+					return ;
+				}
+			}
+		}
+	}
+	if (now_color == BLUE) {
+		num_blue++;
+	}
+	else {
+		num_white++;
+	}
+	return ;
+}
