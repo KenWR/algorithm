@@ -29,14 +29,17 @@ int	main() {
 void	divide_and_conquer(int	x, int y, int limit) {
 	int		next_limit = limit / 2;
 	bool	now_color = confetti[x][y];
+	if ((x % 2 == 1 || y % 2 == 1) && limit > 1) {
+		return ;
+	}
 	if (limit > 1) {
 		for (int i = 0; i < limit; i++) {
 			for (int j = 0; j < limit; j++) {
 				if (confetti[x + i][y + j] != now_color) {
 					divide_and_conquer(x, y, next_limit);
-					divide_and_conquer(x, y + next_limit / 2,next_limit);
-					divide_and_conquer(x + next_limit / 2, y, next_limit);
-					divide_and_conquer(x + next_limit / 2, y + next_limit / 2, next_limit);
+					divide_and_conquer(x, y + next_limit,next_limit);
+					divide_and_conquer(x + next_limit, y, next_limit);
+					divide_and_conquer(x + next_limit, y + next_limit, next_limit);
 					return ;
 				}
 			}
@@ -45,7 +48,7 @@ void	divide_and_conquer(int	x, int y, int limit) {
 	if (now_color == BLUE) {
 		num_blue++;
 	}
-	else {
+	else if (now_color == WHITE) {
 		num_white++;
 	}
 	return ;
