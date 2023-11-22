@@ -43,11 +43,9 @@ in `code` sentence
 
 ## [Section I Want] 
 
-[keyword](######제목)
-
 [Contribution guidelines for this project](docs/CONTRIBUTING.md)
 
-[title](google.com)
+[title](github link)
 
 <이메일>
 
