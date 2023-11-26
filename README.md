@@ -53,7 +53,7 @@ in `code` sentence
 **X**
 ~~X~~
 ~X~
-X^2^
+~ X ~^ 2 ^
 
 ![ALT text](이미지 경로, 부제)
 
