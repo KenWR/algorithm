@@ -1,11 +1,14 @@
 #include <cstddef>
+#include <cstring>
 #include <iostream>
 #include <array>
 #include <iterator>
+#include <string>
+#include <string.h>
 
-int		N, moo_len = 3;
+std::size_t		N;
 
-void	divide_and_conquer(int	times);
+void	divide_and_conquer(std::string base_moo, std::string more_moo);
 
 int	main() {
 	std::ios::sync_with_stdio(false);
@@ -13,14 +16,13 @@ int	main() {
 	std::cout.tie(nullptr);
 
 	std::cin >> N;
-	divide_and_conquer(4);
+	divide_and_conquer("moo", "mooo");
 }
 
-void		divide_and_conquer(int	times) {
-	if (N > moo_len) {
-		moo_len = moo_len * 2 + times;
+void		divide_and_conquer(std::string base_moo, std::string more_moo) {
+	std::string	moo = base_moo;
+	if (N > base_moo.length()) {
+		divide_and_conquer(base_moo + more_moo, more_moo + 'o');
 	}
-	else {
-	
-	}
+	std::cout << moo;
 }
