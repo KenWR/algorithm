@@ -34,14 +34,14 @@ int main() {
 }
 
 void    search() {
-	int	begin = 0, mid, end = M - 1, answer = 0;
+	int	begin = 0, mid, end = weights.back(), answer = 0;
 
 	while (begin <= end) {
 		mid = (begin + end) / 2;
 		visit = {0, };
-		dfs(weights[mid], A);
+		dfs(mid, A);
 		if (visit[B] == true) {
-			answer = std::max(answer, weights[mid]);
+			answer = std::max(answer, mid);
 			begin = mid + 1;
 		}
 		else {
