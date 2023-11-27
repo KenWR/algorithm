@@ -22,6 +22,7 @@ int main() {
 	std::cout.tie(nullptr);
 
 	std::cin >> N >> M;
+	// graph를 만듦과 동시에 중량배열에 중량값을 넣어준다.
 	for (int i = 0; i < M; i++) {
 		std::cin >> A >> B >> C;
 		islands[A].push_back(std::make_pair(B, C));
@@ -29,12 +30,14 @@ int main() {
 		weights.push_back(C);
 	}
 	std::cin >> A >> B;
+	// 중량배열 정렬
 	std::sort(weights.begin(), weights.end());
+	// 이분탐색 시행
 	search();
 }
 
 void    search() {
-	int	begin = 0, mid, end = M - 1, answer = 0;
+	int	begin = 0, mid, end = weights.back(), answer = 0;
 
 	while (begin <= end) {
 		mid = (begin + end) / 2;
