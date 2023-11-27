@@ -34,7 +34,7 @@ int main() {
 }
 
 void    search() {
-	int	begin = 0, mid, end = weights.back(), answer = 0;
+	int	begin = 0, mid, end = weights[M - 1], answer = 0;
 
 	while (begin <= end) {
 		mid = (begin + end) / 2;
