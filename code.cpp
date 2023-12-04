@@ -7,7 +7,7 @@
 
 int	T;
 
-void	search(int index, std::vector<int> folded_paper);
+void	search(std::vector<int> folded_paper);
 
 int	main() {
 	int index;
@@ -26,15 +26,21 @@ int	main() {
 			folded_paper.push_back(paper[index] - '0');
 			index++;
 		}
-		search(index, folded_paper);
+		search(folded_paper);
 	}
+	// 트리구조로
 }
 
-void	search(int index, std::vector<int> folded_paper) {
-	int	low = 0, high = index - 1;
+void	search(std::vector<int> folded_paper) {
+	int	low = 0, high = folded_paper.size() - 1;
 
 	while (low < high) {
 		if (folded_paper[low] == folded_paper[high]) {
+			std::cout << "NO" << '\n';
+			return ;
+		}
+		else if (low + 2 < high - 2 && ((folded_paper[low] == folded_paper[low + 1] && folded_paper[low] == folded_paper[low + 2]) \
+		|| (folded_paper[high] == folded_paper[high - 1] && folded_paper[high] == folded_paper[high - 2]))) {
 			std::cout << "NO" << '\n';
 			return ;
 		}
