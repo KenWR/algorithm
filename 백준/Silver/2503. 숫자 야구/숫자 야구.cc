@@ -1,14 +1,16 @@
 #include <algorithm>
 #include <ios>
 #include <iostream>
+#include <vector>
 
-int	N, baseball, baseball_num[1000];
+int	N; 
+std::vector<int> possible_numbers;
 
-void	say_num(int swing_times);
+void	fill_possible_num();
+void	say_num();
 void	compare_num(int	num, int strike, int ball);
-int	count_strike(int num, int comp_num);
-int	count_ball(int num, int hundreds, int tens, int units);
-void	output_answer();
+int		count_strike(int input_num, int comp_num);
+int		count_ball(int input_num, int comp_num);
 
 int	main() {
 	std::ios::sync_with_stdio(false);
@@ -16,11 +18,27 @@ int	main() {
 	std::cout.tie(nullptr);
 
 	std::cin >> N;
-	say_num(N);
-	output_answer();
+	fill_possible_num();
+	say_num();
+	std::cout << possible_numbers.size();
 }
 
-void	say_num(int swing_times) {
+void	fill_possible_num() {
+	int	hundreds, tens, units;
+
+	for (int i = 123; i < 999; i++) {
+		hundreds = (i / 100) % 10;
+		tens = (i / 10) % 10;
+		units = i % 10;
+		if (hundreds == tens || tens == units || units == hundreds \
+		|| tens == 0 || units == 0)
+			continue;
+		else
+			possible_numbers.push_back(i);
+	}
+}
+
+void	say_num() {
 	for (int i = 0; i < N; i++) {
 		int	num, strike, ball;
 		std::cin >> num >> strike >> ball;
@@ -29,51 +47,46 @@ void	say_num(int swing_times) {
 }
 
 void	compare_num(int	num, int strike, int ball) {
-	for (int hundreds = 1; hundreds < 10; hundreds++) {
-		for (int tens = 1; tens < 10; tens++) {
-			if (hundreds == tens) continue;
-			for (int units = 1; units < 10; units++) {
-				if (hundreds == units || tens == units) continue;
-				if ((count_strike(num, (hundreds * 100) + (tens * 10) + units) == strike \
-				&& count_ball(num, hundreds, tens, units) == ball)) {
-					baseball_num[hundreds * 100 + tens * 10 + units]++;
-				}
-			}
+	int	count_stk = 0, count_bal = 0;
+
+	for (int i = 0; i < possible_numbers.size(); i++) {
+		count_stk = count_strike(num, possible_numbers[i]);
+		count_bal = count_ball(num, possible_numbers[i]);
+		if (count_stk != strike || count_bal != ball) {
+			possible_numbers.erase(possible_numbers.begin() + i);
+			i--;
 		}
 	}
 }
 
-int	count_strike(int num, int comp_num) {
+int	count_strike(int input_num, int comp_num) {
 	int	num_of_strike = 0;
-	while (num) {
-		if (num % 10 == comp_num % 10) num_of_strike++;
-		num /= 10;
+	while (input_num) {
+		if (input_num % 10 == comp_num % 10) {
+			num_of_strike++;
+		}
+		input_num /= 10;
 		comp_num /= 10;
 	}
 	return num_of_strike;
 }
 
-int	count_ball(int num, int hundreds, int tens, int units) {
-	int	num_of_ball = 0;
-	if (num % 10 == hundreds || num % 10 == tens) num_of_ball++;
-	num /= 10;
-	if (num % 10 == hundreds || num % 10 == units) num_of_ball++;
-	num /= 10;
-	if (num % 10 == tens || num % 10 == units) num_of_ball++;
-	return num_of_ball;
-}
+int	count_ball(int input_num, int comp_num) {
+	int	num_of_ball = 0; 
+	int	hundreds = (comp_num / 100) % 10;
+	int tens = (comp_num / 10) % 10;
+	int units = comp_num % 10;
 
-void	output_answer() {
-	int	answer = 0;
-	for (int hundreds = 1; hundreds < 10; hundreds++) {
-		for (int tens = 1; tens < 10; tens++) {
-			if (hundreds == tens) continue;
-			for (int units = 1; units < 10; units++) {
-				if (hundreds  == units || tens  == units) continue;
-				
-				if (baseball_num[hundreds * 100 + tens * 10 + units] == N) answer++;
-			}
-		}
+	if (input_num % 10 == hundreds || input_num % 10 == tens) {
+		num_of_ball++;
 	}
-	std::cout << answer;
+	input_num /= 10;
+	if (input_num % 10 == hundreds || input_num % 10 == units) {
+		num_of_ball++;
+	}
+	input_num /= 10;
+	if (input_num % 10 == tens || input_num % 10 == units) {
+		num_of_ball++;
+	}
+	return (num_of_ball);
 }
