@@ -1,92 +1,161 @@
-#include <algorithm>
 #include <ios>
 #include <iostream>
-#include <vector>
+#define HEUK 1
+#define BAEK 2
 
-int	N; 
-std::vector<int> possible_numbers;
+int	game_board[19][19];
 
-void	fill_possible_num();
-void	say_num();
-void	compare_num(int	num, int strike, int ball);
-int		count_strike(int input_num, int comp_num);
-int		count_ball(int input_num, int comp_num);
+void	set_board();
+void	search_all();
+int		find_omok(int y, int x, int color);
+int		diagonal_rightunder_leftupper(int y, int x, int color);
+int		diagonal_rightupper_leftunder(int y, int x, int color);
+int		horizon(int y, int x, int color);
+int		virtical(int y, int x, int color);
+void	find_head(int y, int x, int color, int omok_type);
 
 int	main() {
 	std::ios::sync_with_stdio(false);
 	std::cin.tie(nullptr);
 	std::cout.tie(nullptr);
 
-	std::cin >> N;
-	fill_possible_num();
-	say_num();
-	std::cout << possible_numbers.size();
+	set_board();
+	search_all();
 }
 
-void	fill_possible_num() {
-	int	hundreds, tens, units;
+void	set_board() {
+	for (int i = 0; i < 19; i++) {
+		for (int j = 0; j < 19; j++) {
+			std::cin >> game_board[i][j];
+		}
+	}
+}
 
-	for (int i = 123; i < 999; i++) {
-		hundreds = (i / 100) % 10;
-		tens = (i / 10) % 10;
-		units = i % 10;
-		if (hundreds == tens || tens == units || units == hundreds \
-		|| tens == 0 || units == 0)
-			continue;
+void	search_all() {
+	int	omok_type;
+	for (int i = 0; i < 19; i++) {
+		for (int j = 0; j < 19; j++) {
+			omok_type = 0;
+			if (game_board[i][j] == HEUK || game_board[i][j] == BAEK)
+				omok_type = find_omok(i, j, game_board[i][j]);
+			if (omok_type) {
+				find_head(i, j, game_board[i][j], omok_type);
+				return;
+			}
+		}
+	}
+	std::cout << '0';
+}
+
+int	find_omok(int y, int x, int color) {
+	if (diagonal_rightupper_leftunder(y, x, color) == 5)
+		return (1);
+	if (diagonal_rightunder_leftupper(y, x, color) == 5)
+		return (2);
+	if (virtical(y, x, color) == 5)
+		return (3);
+	if (horizon(y, x, color) == 5)
+		return (4);
+	return (0);
+}
+
+
+int		diagonal_rightunder_leftupper(int y, int x, int color) {
+	int	len = 1;
+	for (int i = 1; i < 19; i++) {
+		if ((y - i >= 0 && x - i >= 0) && game_board[y - i][x - i] == color)
+			len++;
 		else
-			possible_numbers.push_back(i);
+			break;
 	}
+	for (int i = 1; i < 19; i++) {
+		if ((y + i <= 18 && x + i <= 18) && game_board[y + i][x + i] == color)
+			len++;
+		else
+			break;
+	}
+	return (len);
 }
 
-void	say_num() {
-	for (int i = 0; i < N; i++) {
-		int	num, strike, ball;
-		std::cin >> num >> strike >> ball;
-		compare_num(num, strike, ball);
+int		diagonal_rightupper_leftunder(int y, int x, int color) {
+	int	len = 1;
+	for (int i = 1; i < 19; i++) {
+		if ((y - i >= 0 && x + i <= 18) && game_board[y - i][x + i] == color)
+			len++;
+		else
+			break;
 	}
+	for (int i = 1; i < 19; i++) {
+		if ((y + i <= 18 && x - i >= 0) && game_board[y + i][x - i] == color)
+			len++;
+		else
+			break;
+	}
+	return (len);
 }
 
-void	compare_num(int	num, int strike, int ball) {
-	int	count_stk = 0, count_bal = 0;
+int		horizon(int y, int x, int color) {
+	int	len = 1;
+	for (int i = 1; i < 19; i++) {
+		if ((x - i >= 0) && game_board[y][x - i] == color)
+			len++;
+		else
+		 	break;;
+	}
+	for (int i = 1; i < 19; i++) {
+		if ((x + i <= 18) && game_board[y][x + i] == color)
+			len++;
+		else
+		 	break;
+	}
+	return (len);
+}
 
-	for (int i = 0; i < possible_numbers.size(); i++) {
-		count_stk = count_strike(num, possible_numbers[i]);
-		count_bal = count_ball(num, possible_numbers[i]);
-		if (count_stk != strike || count_bal != ball) {
-			possible_numbers.erase(possible_numbers.begin() + i);
-			i--;
+int		virtical(int y, int x, int color) {
+	int	len = 1;
+	for (int i = 1; i < 19; i++) {
+		if ((y - i >= 0) && game_board[y - i][x] == color)
+			len++;
+		else
+			break;
+	}
+	for (int i = 1; i < 19; i++) {
+		if ((y + i <= 18) && game_board[y + i][x] == color)
+			len++;
+		else
+			break;
+	}
+	return (len);
+}
+
+void	find_head(int y, int x, int color, int omok_type) {
+	int	i = 0;
+	if (omok_type == 1) {// /\|-
+		while (game_board[y + i][x - i] == color && y + i <= 18 && x - i >= 0) {
+			i++;
 		}
+		i--;
+		std::cout << color << '\n' << y + i +1 << ' ' << x - i + 1;
 	}
-}
-
-int	count_strike(int input_num, int comp_num) {
-	int	num_of_strike = 0;
-	while (input_num) {
-		if (input_num % 10 == comp_num % 10) {
-			num_of_strike++;
+	else if (omok_type == 2) {
+		while (game_board[y - i][x - i] == color && x - i >= 0 && y - i >= 0) {
+			i++;
 		}
-		input_num /= 10;
-		comp_num /= 10;
+		i--;
+		std::cout << color << '\n' << y - i + 1 << ' ' << x + i + 1;
 	}
-	return num_of_strike;
-}
-
-int	count_ball(int input_num, int comp_num) {
-	int	num_of_ball = 0; 
-	int	hundreds = (comp_num / 100) % 10;
-	int tens = (comp_num / 10) % 10;
-	int units = comp_num % 10;
-
-	if (input_num % 10 == hundreds || input_num % 10 == tens) {
-		num_of_ball++;
+	else if (omok_type == 3) {
+		while (game_board[y - i][x] == color && y - i >= 0) {
+			i++;
+		}
+		i--;
+		std::cout << color << '\n' << y - i + 1 << ' ' << x + 1;
 	}
-	input_num /= 10;
-	if (input_num % 10 == hundreds || input_num % 10 == units) {
-		num_of_ball++;
+	else if (omok_type == 4) {
+		while (game_board[y][x - i] == color && x - i >= 0) {
+			i++;
+		}
+		i--;
+		std::cout << color << '\n' << y + 1 << ' ' << x - i + 1;
 	}
-	input_num /= 10;
-	if (input_num % 10 == tens || input_num % 10 == units) {
-		num_of_ball++;
-	}
-	return (num_of_ball);
 }
