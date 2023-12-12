@@ -25,12 +25,12 @@ int	main() {
 			}
 			for (int k = 1; k <= N; k++) {
 				if (i == k || j == k) {
-					
+					continue;
 				}
 				else if (not_delicious_comb[i][j] \
 				|| not_delicious_comb[i][k] \
 				|| not_delicious_comb[j][k]) {
-					
+					continue;
 				}
 				else {
 					delicious++;
