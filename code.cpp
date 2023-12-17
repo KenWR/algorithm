@@ -4,11 +4,11 @@
 #include <vector>
 using namespace std;
 
-void	judge_recruits(int recruits_num);
-bool	compare(pair<int, int> a, pair<int, int> b);
+void	sorting_log(int log_num);
+void	calc_level(vector<int> logs);
 
 int	main() {
-	int T, N;
+	int T, N, L; // 테스트 개수, 통나무 개수, 통나무 높이
 	ios::sync_with_stdio(false);
 	cin.tie(nullptr);
 	cout.tie(nullptr);
@@ -16,33 +16,42 @@ int	main() {
 	cin >> T;
 	for (int i = 0; i < T; i++) {
 		cin >> N;
-		judge_recruits(N);
+		sorting_log(N);
 	}
 }
 
-void	judge_recruits(int recruits_num) {
-	vector<pair<int, int>> recruits;
-	pair<int, int> recruit;
-	int	rank, count = 0; // 기록, 뽑을 신입사원 수
+void	sorting_log(int log_num) {
+	vector<int> logs, new_logs;
+	int	log;
+	bool flag = false;
 
-	// 신입사원들 배열로 만들기
-	for (int i = 0; i < recruits_num; i++) {
-		cin >> recruit.first >> recruit.second;
-		recruits.push_back(recruit);
+	// 통나무 배열로 받기
+	for (int i = 0; i < log_num; i++) {
+		cin >> log;
+		logs.push_back(log);
 	}
-	// 정렬
-	sort(recruits.begin(), recruits.end(), compare);
-	rank = recruits[0].second;
-	// 신입사원정리
-	for (int i = 1; i < recruits_num; i++) {
-		if (recruits[i].second < rank) {
-			rank = recruits[i].second;
-			count++;
+	// 통나무 오름차순 정렬
+	sort(logs.begin(), logs.end());
+	new_logs.push_back(logs[log_num - 1]);
+	for (int i = log_num - 2; i >= 0; i--) {
+		if (flag == false) {
+			new_logs.insert(new_logs.begin(), logs[i]);
+			flag = true;
+		}
+		else if (flag == true) {
+			new_logs.push_back(logs[i]);
+			flag = false;
 		}
 	}
-	cout << count + 1 << '\n';
+	calc_level(
+		new_logs);
 }
 
-bool	compare(pair<int, int> a, pair<int, int> b) {
-	return (a.first < b.first);
+void calc_level(vector<int> logs) {
+	int	level = 0;
+
+	for (int i = 1; i < logs.size(); i++) {
+		level = max(abs(logs[i - 1] - logs[i]), level);
+	}
+	cout << level << '\n';
 }
