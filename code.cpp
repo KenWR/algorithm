@@ -1,60 +1,48 @@
-#include <algorithm>
-#include <cstddef>
 #include <ios>
 #include <iostream>
 #include <vector>
 using namespace std;
 
-size_t	profit;
-
-void	calc_zusik(size_t days);
-size_t	find_highest(size_t days, size_t today, vector<int> zusik);
+void	judge_recruits(int recruits_num);
+bool	compare_fir(pair<int, int> a, pair<int, int> b);
+bool	compare_sec(pair<int, int> a, pair<int, int> b);
 
 int	main() {
-	size_t T, N;
+	int T, N;
 	ios::sync_with_stdio(false);
 	cin.tie(nullptr);
 	cout.tie(nullptr);
 
 	cin >> T;
-	for (size_t i = 0; i < T; i++) {
-		profit = 0;
+	for (int i = 0; i < T; i++) {
 		cin >> N;
-		calc_zusik(N);
+		judge_recruits(N);
 	}
 }
 
-void	calc_zusik(size_t days) {
-	vector<int> zusik;
-	size_t purchased = 0, highest, price; //구매일, 가격
+void	judge_recruits(int recruits_num) {
+	vector<pair<int, int>> recruits, sorted_myunzub, sorted_both;
+	pair<int, int> recruit, myunzub_no_1, seoryu_no_1;
 
-	// 입력받는 주식들 저장
-	for (size_t i = 0; i < days; i++) {
-		cin >> price;
-		zusik.push_back(price);
+	// 신입사원들 배열로 만들기
+	for (int i = 0; i < recruits_num; i++) {
+		cin >> recruit.first >> recruit.second;
+		if (recruit.first == 1)
+			seoryu_no_1 = recruit;
+		else if (recruit.second == 1)
+			myunzub_no_1 = recruit;
+		recruits.push_back(recruit);
 	}
-	// 주식 계산
-	highest = find_highest(days, purchased, zusik);
-	for (size_t i = 0; i < days; i++) {
-		// 최고가를 만나면
-		if (highest == i) {
-			// 주식 전부 판매
-			for (size_t j = purchased; j < highest; j++) {
-				profit += zusik[highest] - zusik[j];
-			}
-			purchased = highest + 1;
-			highest = find_highest(days, purchased, zusik);
-		}
+	// 서류 1위의 면접 점수보다 낮은 사람 제거
+	for (int i = 0; i < recruits_num; i++) {
+		if (recruits[i].second <= seoryu_no_1.second)
+			sorted_myunzub.push_back(recruits[i]);
 	}
-	cout << profit << '\n';
+	// 면접 1위의 서류 점수보다 낮은 사람 제거
+	for (int i = 0; i < sorted_myunzub.size(); i++) {
+		if (sorted_myunzub[i].first <= myunzub_no_1.first)
+			sorted_both.push_back(sorted_myunzub[i]);
+	}
+	cout << sorted_both.size() << '\n';
 }
 
-size_t	find_highest(size_t days, size_t purchased, vector<int> zusik) {
-	size_t	highest = purchased;
-	for (size_t i = purchased; i < days; i++) {
-		if (zusik[highest] <= zusik[i]) {
-			highest = i;
-		}
-	}
-	return (highest);
-}
