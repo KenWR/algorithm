@@ -1,11 +1,11 @@
+#include <algorithm>
 #include <ios>
 #include <iostream>
 #include <vector>
 using namespace std;
 
 void	judge_recruits(int recruits_num);
-bool	compare_fir(pair<int, int> a, pair<int, int> b);
-bool	compare_sec(pair<int, int> a, pair<int, int> b);
+bool	compare(pair<int, int> a, pair<int, int> b);
 
 int	main() {
 	int T, N;
@@ -21,28 +21,28 @@ int	main() {
 }
 
 void	judge_recruits(int recruits_num) {
-	vector<pair<int, int>> recruits, sorted_myunzub, sorted_both;
-	pair<int, int> recruit, myunzub_no_1, seoryu_no_1;
+	vector<pair<int, int>> recruits;
+	pair<int, int> recruit;
+	int	rank, count = 0; // 기록, 뽑을 신입사원 수
 
 	// 신입사원들 배열로 만들기
 	for (int i = 0; i < recruits_num; i++) {
 		cin >> recruit.first >> recruit.second;
-		if (recruit.first == 1)
-			seoryu_no_1 = recruit;
-		else if (recruit.second == 1)
-			myunzub_no_1 = recruit;
 		recruits.push_back(recruit);
 	}
-	// 서류 1위의 면접 점수보다 낮은 사람 제거
-	for (int i = 0; i < recruits_num; i++) {
-		if (recruits[i].second <= seoryu_no_1.second)
-			sorted_myunzub.push_back(recruits[i]);
+	// 정렬
+	sort(recruits.begin(), recruits.end(), compare);
+	rank = recruits[0].second;
+	// 신입사원정리
+	for (int i = 1; i < recruits_num; i++) {
+		if (recruits[i].second < rank) {
+			rank = recruits[i].second;
+			count++;
+		}
 	}
-	// 면접 1위의 서류 점수보다 낮은 사람 제거
-	for (int i = 0; i < sorted_myunzub.size(); i++) {
-		if (sorted_myunzub[i].first <= myunzub_no_1.first)
-			sorted_both.push_back(sorted_myunzub[i]);
-	}
-	cout << sorted_both.size() << '\n';
+	cout << count + 1 << '\n';
 }
 
+bool	compare(pair<int, int> a, pair<int, int> b) {
+	return (a.first < b.first);
+}
