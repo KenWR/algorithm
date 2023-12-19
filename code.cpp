@@ -1,57 +1,46 @@
 #include <algorithm>
-#include <ios>
 #include <iostream>
 #include <vector>
 using namespace std;
 
-void	sorting_log(int log_num);
-void	calc_level(vector<int> logs);
+vector<pair<int, int>> meet_info_arr;
+
+bool	ascending_fir(const pair<int, int> &a, const pair<int, int> &b);
+void	scheduling(int meet_num);
 
 int	main() {
-	int T, N, L; // 테스트 개수, 통나무 개수, 통나무 높이
+	int N, m_start, m_end; // 회의개수, 시작시간, 끝시간
 	ios::sync_with_stdio(false);
 	cin.tie(nullptr);
 	cout.tie(nullptr);
 
-	cin >> T;
-	for (int i = 0; i < T; i++) {
-		cin >> N;
-		sorting_log(N);
+	cin >> N;
+	for (int i = 0; i < N; i++) {
+		cin >> m_start >> m_end;
+		meet_info_arr.push_back(make_pair(m_start, m_end));
 	}
+	sort(meet_info_arr.begin(), meet_info_arr.end(), ascending_fir);
+	scheduling(N);
 }
 
-void	sorting_log(int log_num) {
-	vector<int> logs, new_logs;
-	int	log;
-	bool flag = false;
-
-	// 통나무 배열로 받기
-	for (int i = 0; i < log_num; i++) {
-		cin >> log;
-		logs.push_back(log);
-	}
-	// 통나무 오름차순 정렬
-	sort(logs.begin(), logs.end());
-	new_logs.push_back(logs[log_num - 1]);
-	for (int i = log_num - 2; i >= 0; i--) {
-		if (flag == false) {
-			new_logs.insert(new_logs.begin(), logs[i]);
-			flag = true;
-		}
-		else if (flag == true) {
-			new_logs.push_back(logs[i]);
-			flag = false;
-		}
-	}
-	calc_level(
-		new_logs);
+bool	ascending_fir(const pair<int, int> &a, const pair<int, int> &b) {
+    if (a.first == b.first)
+        return (a.second < b.second);
+	return (a.first < b.first);
 }
 
-void calc_level(vector<int> logs) {
-	int	level = 0;
-
-	for (int i = 1; i < logs.size(); i++) {
-		level = max(abs(logs[i - 1] - logs[i]), level);
+void	scheduling(int meet_num) {
+	int	count = 0;
+	pair<int, int> meet_info;
+	
+	for (int i = 0; i < meet_num; i++) {
+		if (meet_info_arr[i].first >= meet_info.second) {
+			meet_info = meet_info_arr[i];
+			count++;
+		}
+		if (meet_info_arr[i].second < meet_info.second) {
+			meet_info = meet_info_arr[i];
+		}
 	}
-	cout << level << '\n';
+	cout << count;
 }
