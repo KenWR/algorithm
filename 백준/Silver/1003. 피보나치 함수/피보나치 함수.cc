@@ -19,7 +19,8 @@ int	main() {
 	cin >> T;
 	for (int i = 0; i < T; i++) {
 		cin >> N;
-		dynamic_p(N);
+		if (zero[N] == 0 && one[N] == 0)
+			dynamic_p(N);
 		cout << zero[N] << ' '; // 0 개수 출력
 		cout << one[N] << '\n'; // 1 개수 출력
 	}
