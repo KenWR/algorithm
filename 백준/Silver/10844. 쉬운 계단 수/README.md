@@ -132,16 +132,12 @@ arr[10][105] 가 되겠다.
     (시작 + 1, 자릿수 - 1) 가 존재하지 않으면   
     해당 값을 매개변수로 재귀호출한다.
 ```c++
-int main() {
-    int N;
-    size_t 계단수;
-    for (int i = 1; i < 10; i++) {
-        if (계단[i][N] == 0)
-            재귀함수(i, N);
-        계단수 += 계단[i][N];
-    }  
-    출력 (계단수 % 1,000,000,000);
-}
+for (int i = 1; i < 10; i++) {
+    if (계단[i][N] == 0)
+        재귀함수(i, N);
+    계단수 += 계단[i][N];
+}  
+출력 (계단수 % 1,000,000,000);
 
 void    재귀함수(int 시작, int 자릿수) {
     if (시작 < 0 || 시작 > 9 || 자릿수 == 0)
@@ -168,7 +164,7 @@ void    재귀함수(int 시작, int 자릿수) {
 #include <vector>
 using namespace std;
 
-size_t	계단[10][105];
+size_t	stair[10][105];
 void	dynamic_p(int start, int digit);
 
 int	main() {
@@ -180,12 +176,12 @@ int	main() {
 
 	cin >> N;
 	for (int i = 0; i < 10; i++) {
-		계단[i][1] = 1;
+		stair[i][1] = 1;
 	}
     for (int i = 1; i < 10; i++) {
-        if (계단[i][N] == 0)
+        if (stair[i][N] == 0)
             dynamic_p(i, N);
-        stair_num = stair_num + 계단[i][N];
+        stair_num = stair_num + stair[i][N];
 	}
     cout << stair_num  % 1000000000;
 }
@@ -193,11 +189,11 @@ int	main() {
 void    dynamic_p(int start, int digit) {
     if (start < 0 || start > 9 || digit < 0)
         return ;
-    if (계단[start - 1][digit - 1] == 0)
+    if (stair[start - 1][digit - 1] == 0)
         dynamic_p(start - 1, digit - 1);
-    if (계단[start + 1][digit - 1] == 0)
+    if (stair[start + 1][digit - 1] == 0)
         dynamic_p(start + 1, digit - 1);
-    계단[start][digit] = 계단[start - 1][digit - 1] + 계단[start + 1][digit - 1];
+    stair[start][digit] = stair[start - 1][digit - 1] + stair[start + 1][digit - 1];
 }
 ```
 
