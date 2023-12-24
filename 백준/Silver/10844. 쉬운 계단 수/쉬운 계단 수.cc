@@ -17,7 +17,6 @@ int	main() {
 	cin >> N;
     for (int i = 2; i <= N; i++) { // 자릿수
         for (int j = 0; j < 10; j++) { // 시작 번호
-            stairs[i][j] = 0;
             if (j - 1 >= 0) stairs[i][j] += stairs[i - 1][j - 1];
             if (j + 1 < 10) stairs[i][j] += stairs[i - 1][j + 1];
             stairs[i][j] %= 1000000000;
