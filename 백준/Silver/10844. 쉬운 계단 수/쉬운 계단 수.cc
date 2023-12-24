@@ -1,8 +1,5 @@
-#include <cstddef>
 #include <iostream>
-#include <utility>
 #include <vector>
-#include <stdio.h>
 using namespace std;
 
 size_t	stairs[105][11];
