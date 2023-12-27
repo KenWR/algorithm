@@ -1,43 +1,33 @@
 #include <algorithm>
 #include <iostream>
+#include <iterator>
 using namespace std;
 
-int sum_arr[505];
-int plus_arr[505];
+int sticker[2][100005];
 
 int	main() {
-    int N, biggest = 0;
-
+	int T, n;
 	ios::sync_with_stdio(false);
 	cin.tie(nullptr);
 	cout.tie(nullptr);
-
-    cin >> N;
-    for (int i = 1; i <= N; i++) {
-        // 한줄씩 받아오기
-        for (int j = 0; j < i; j++) {
-            cin >> plus_arr[j];
+	cin >> T;
+	while (T--> 0) {
+        cin >> n;
+		// 배열 초기화
+        for (int i = 0; i < 2; i++) {
+            fill(begin(sticker[i]), end(sticker[i]), 0);
         }
-        // 한줄씩 가장 큰 수로 더해주기
-        for (int j = 0; j < i; j++) {
-            if (j != 0 && j != i - 1) {
-                plus_arr[j] += max(sum_arr[j - 1], sum_arr[j]);
-            }
-            else if (j == 0) {
-                plus_arr[j] += sum_arr[j];
-            }
-            else if (j == i - 1) {
-                plus_arr[j] += sum_arr[j - 1];
+        // 스티커 점수 삽입
+        for (int i = 0; i < 2; i++) {
+            for (int j = 1; j <= n; j++) {
+                cin >> sticker[i][j];
             }
         }
-        // 더해진 값을 sum_arr에 복사
-        for (int j = 0; j < i; j++) {
-            sum_arr[j] = plus_arr[j];
+        // 스티커 최대합 계산
+        for (int i = 2; i <= n; i++) {
+            sticker[0][i] = max(sticker[1][i - 1], sticker[1][i - 2]) + sticker[0][i];
+            sticker[1][i] = max(sticker[0][i - 1], sticker[0][i - 2]) + sticker[1][i];
         }
-    }
-    // 순회하며 가장 큰 수 출력
-    for (int i = 0; i < N; i++) {
-        biggest = max(biggest, sum_arr[i]);
-    }
-    cout << biggest;
+        cout << max(sticker[0][n], sticker[1][n]) << '\n';
+	}
 }
