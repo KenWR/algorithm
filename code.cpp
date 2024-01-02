@@ -1,33 +1,82 @@
-#include <algorithm>
 #include <iostream>
-#include <iterator>
+#define VIRUS 2
+#define WALL 1
+#define SAFE 0
 using namespace std;
 
-int sticker[2][100005];
+const int dy[4] = {-1, 0, 0, 1}, dx[4] = {0, 1, -1, 0};
+int N, M, lab[10][10];
+
+int    count_area(int src);
+int    count_bfs(int y, int x, bool visited[10][10], int size, int source);
+void    spread(int dest, int src);
+void    spread_bfs(int y, int x, bool visited[10][10], int dest, int source);
 
 int	main() {
-	int T, n;
+    int size = 0;
+
 	ios::sync_with_stdio(false);
 	cin.tie(nullptr);
 	cout.tie(nullptr);
-	cin >> T;
-	while (T--> 0) {
-        cin >> n;
-		// 배열 초기화
-        for (int i = 0; i < 2; i++) {
-            fill(begin(sticker[i]), end(sticker[i]), 0);
+	
+    cin >> N >> M;
+    for (int i = 1; i <= N; i++) {
+        for (int j = 1; j <= M; j++) {
+            cin >> lab[i][j];
         }
-        // 스티커 점수 삽입
-        for (int i = 0; i < 2; i++) {
-            for (int j = 1; j <= n; j++) {
-                cin >> sticker[i][j];
-            }
+    }
+    cout << count_area(SAFE) << ' ' << count_area(VIRUS);
+    spread(SAFE, VIRUS);
+    return 0;
+}
+
+
+int    count_area(int src) {
+    int size = 0;
+    bool    visited[10][10] = {false, };
+
+    for (int i = 1; i <= N; i++) {
+        for (int j = 1; j <= M; j++) {
+            if (lab[i][j] == src)
+                size = count_bfs(i, j, visited, size, src);
         }
-        // 스티커 최대합 계산
-        for (int i = 2; i <= n; i++) {
-            sticker[0][i] = max(sticker[1][i - 1], sticker[1][i - 2]) + sticker[0][i];
-            sticker[1][i] = max(sticker[0][i - 1], sticker[0][i - 2]) + sticker[1][i];
+    }
+    return (size);
+}
+
+int count_bfs(int y, int x, bool visited[10][10], int size, int source) {
+    if (y == 0 || x == 0 || y > N || x > M) // 범위 벗어나면 종료
+        return (0);
+    visited[y][x] = true;
+    size++;
+    for (int i = 0; i < 4; i++) {
+        if (lab[y + dy[i]][x + dx[i]] == source \
+        && visited[y + dy[i]][x + dx[i]] == 0)
+            count_bfs(y + dy[i], x + dx[i], visited, size, source);
+    }
+    return (size);
+}
+
+void    spread(int dest, int src) {
+    bool    visited[10][10] = {false, };
+
+    for (int i = 1; i <= N; i++) {
+        for (int j = 1; j <= M; j++) {
+            if (lab[i][j] == dest)
+                spread_bfs(i, j, visited, dest, src);
         }
-        cout << max(sticker[0][n], sticker[1][n]) << '\n';
-	}
+    }
+    return;
+}
+
+void    spread_bfs(int y, int x, bool visited[10][10], int dest, int source) {
+    if (y == 0 || x == 0 || y > N || x > M) // 범위 벗어나면 종료
+        return;
+    visited[y][x] = true;
+    lab[y][x] = source;
+    for (int i = 0; i < 4; i++) {
+        if (lab[y + dy[i]][x + dx[i]] == dest \
+        && visited[y + dy[i]][x + dx[i]] == 0)
+            spread_bfs(y + dy[i], x + dx[i], visited, dest, source);
+    }
 }
