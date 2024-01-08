@@ -27,7 +27,9 @@ int	main() {
 
 void    brute_calc(int sum, int operater, int num_idx)
 {
-    sum = operating(sum, num[i],)
+    sum = operating(sum, num[i],);
+    if (oper[operater])
+        brute_calc(sum, int operater, int num_idx)
 }
 
 int operating(int num1, int num2, int operater)
