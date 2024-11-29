@@ -37,6 +37,12 @@ export async function parseData(): Promise<LeetcodeData> {
 
   // customize: Add Problem ID Time and Memory elements
   const problemId = title.match(/^(\d+)\./);
+  if (problemId) {
+    const numberBeforeDot = problemId[1];
+    console.log(numberBeforeDot);
+  } else {
+    console.log('No match');
+  }
 
   const timeElement = document.querySelector('.result-time')  // 결과 시간을 담고 있는 클래스명 예시
   const timeBeatsElement = document.querySelector('.result-time-beats') // 시간의 Beats 정보가 있는 부분
@@ -58,7 +64,7 @@ export async function parseData(): Promise<LeetcodeData> {
     codeSnippet,
     language,
     link,
-    problemId,
+    problemId: problemId ? problemId[1] : '',
     time,
     timeBeats,
     memory,
