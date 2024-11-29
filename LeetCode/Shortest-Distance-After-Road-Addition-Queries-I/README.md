@@ -18,7 +18,7 @@ Output: [3,2,1]
 
 Explanation:
 
-[https://assets.leetcode.com/uploads/2024/06/28/image8.jpg]
+![aaa](https://assets.leetcode.com/uploads/2024/06/28/image8.jpg_
 
 After the addition of the road from 2 to 4, the length of the shortest path from 0 to 4 is 3.
 
