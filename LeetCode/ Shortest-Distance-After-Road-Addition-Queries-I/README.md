@@ -1,8 +1,6 @@
+## Shortest Distance After Road Addition Queries I
 
-      ## Shortest Distance After Road Addition Queries I
-
-
-      Can you solve this real interview question? Shortest Distance After Road Addition Queries I - You are given an integer n and a 2D integer array queries.
+Can you solve this real interview question? Shortest Distance After Road Addition Queries I - You are given an integer n and a 2D integer array queries.
 
 There are n cities numbered from 0 to n - 1. Initially, there is a unidirectional road from city i to city i + 1 for all 0 <= i < n - 1.
 
@@ -48,13 +46,10 @@ After the addition of the road from 0 to 3, the length of the shortest path from
 
 After the addition of the road from 0 to 2, the length of the shortest path remains 1.
 
-
-      ### Constraints:
-
-      ### * 3 <= n <= 500
+### Constraints:
+* 3 <= n <= 500
  * 1 <= queries.length <= 500
  * queries[i].length == 2
  * 0 <= queries[i][0] < queries[i][1] < n
  * 1 < queries[i][1] - queries[i][0]
  * There are no repeated roads among the queries.
-      
