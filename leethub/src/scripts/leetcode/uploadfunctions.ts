@@ -30,13 +30,12 @@ export async function uploadOneSolveProblemOnGit(
 }
 
 function convertImageUrlsToMarkdown(description: string): string {
-  // 정규 표현식으로 이미지 URL을 찾아서 GitHub 형식의 마크다운으로 변환
-  return description.replace(
-    /https:\/\/assets\.leetcode\.com\/uploads\/[^\s]+/g,
-    (url) => `![image](${url})`
-  );
+  // 정규 표현식을 사용해 [URL] 형식의 문자열을 ![image](URL) 형식으로 변경
+  return description.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, (match, altText, url) => {
+    const imageName = url.split('/').pop()?.split('.')[0] || 'image'; // 파일명 추출 (확장자 제외)
+    return `![${imageName}](${url})`;
+  });
 }
-
 
 async function upload(
   token: string,
@@ -49,7 +48,7 @@ async function upload(
     const stats: Stats = await getStats()
     const formattedDescription = convertImageUrlsToMarkdown(leetcodeData.description);
 
-    const directory = `LeetCode/${leetcodeData.problemId}: ${leetcodeData.title.replace(/\s+/g, '-')}`
+    const directory = `LeetCode/${leetcodeData.problemId} ${leetcodeData.title.replace(/\s+/g, '-')}`
     const filename = 'Solution.cpp' // customize
     const sourceText = leetcodeData.codeSnippet
     const readmeText = `

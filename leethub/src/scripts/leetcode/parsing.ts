@@ -15,11 +15,6 @@ export async function parseData(): Promise<LeetcodeData> {
 
   const description = descriptionAndConstraints[0].trim()
 
-  // customize: Add Problem ID
-  const problemIdMatch = description.match(/^(\d+)\.(\w[\w\-]*)/)
-  const problemId = problemIdMatch ? problemIdMatch[1] : ''
-  // customize
-
   let constraints: string[] = []
   if (descriptionAndConstraints.length > 1) {
     constraints = descriptionAndConstraints[1]
@@ -40,7 +35,9 @@ export async function parseData(): Promise<LeetcodeData> {
     ? languageElement.getAttribute('data-mode-id') || ''
     : ''
 
-  // customize: add Time and Memory elements
+  // customize: Add Problem ID Time and Memory elements
+  const problemId = title.match(/^(\d+)\./);
+
   const timeElement = document.querySelector('.result-time')  // 결과 시간을 담고 있는 클래스명 예시
   const timeBeatsElement = document.querySelector('.result-time-beats') // 시간의 Beats 정보가 있는 부분
 
