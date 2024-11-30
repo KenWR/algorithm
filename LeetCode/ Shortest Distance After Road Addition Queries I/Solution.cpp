@@ -1,38 +1,19 @@
-class Solution {
-public:
-    vector<int> shortestDistanceAfterQueries(int n, vector<vector<int>>& queries) {
-        vector<vector<int>> graph(n, vector<int>(1, 0));
-        vector<int> res;
+class Solution:
+    def shortestDistanceAfterQueries(self, n: int, queries: List[List[int]]) -> List[int]:
+        graph = [[i+1] for i in range(n-1)] + [[]]
+        dist = list(range(n))
+        def process_query(a, b):
+            graph[a].append(b)
+            if dist[a] + 1 < dist[b]:
+                dist[b] = dist[a] + 1
+                stack = [b]
+                while stack:
+                    x = stack.pop()
+                    for y in graph[x]:
+                        if dist[x] + 1 < dist[y]:
+                            dist[y] = dist[x] + 1
+                            stack.append(y)
 
-        for (int i = 0; i < graph.size(); ++i) {
-            graph[i][0] = i + 1;
-        }
+            return dist[n-1]
 
-        for (const auto& query : queries) {
-            graph[query[0]].push_back(query[1]);
-            res.push_back(bfs(graph, n, res));
-        }
-        
-        return res;
-    }
-
-    int bfs(vector<vector<int>>& graph, int n, vector<int>& res) {
-        deque<pair<int, int>> dq;
-        vector<bool> visited(n, 0);
-        int distance = n - 1;
-
-        dq.push_back(make_pair(0, 0));
-        while(!dq.empty()) {
-            pair<int, int> currentRoad = dq.front();
-            dq.pop_front();
-            if (visited[currentRoad.first]) continue;
-            visited[currentRoad.first] = true;
-            for (const auto nextRoad : graph[currentRoad.first]) {
-                if (nextRoad == n) return currentRoad.second;
-                if (!res.empty() && currentRoad.second >= res.back()) return res.back();
-                dq.push_back(make_pair(nextRoad, currentRoad.second + 1));
-            }
-        }
-        return n - 1;
-    }
-};
+        return [process_query(a, b) for a, b in queries]
