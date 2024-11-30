@@ -1,4 +1,6 @@
-# Shortest Distance After Road Addition Queries I
+# Description
+
+ **Shortest Distance After Road Addition Queries I**
 
 Can you solve this real interview question? Shortest Distance After Road Addition Queries I - You are given an integer n and a 2D integer array queries.
 
@@ -45,3 +47,12 @@ After the addition of the road from 0 to 3, the length of the shortest path from
 [https://assets.leetcode.com/uploads/2024/06/28/image12.jpg]
 
 After the addition of the road from 0 to 2, the length of the shortest path remains 1.
+
+## Constraints:
+* 3 <= n <= 500
+ * 1 <= queries.length <= 500
+ * queries[i].length == 2
+ * 0 <= queries[i][0] < queries[i][1] < n
+ * 1 < queries[i][1] - queries[i][0]
+ * There are no repeated roads among the queries.
+      
