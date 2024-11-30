@@ -49,12 +49,12 @@ async function upload(
     const git: GitHub = new GitHub(hook, token)
     const stats: Stats = await getStats()
     const formattedDescription = convertToMarkdown(leetcodeData.description);
-    const directory = `LeetCode/${leetcodeData.questionFrontendId} ${leetcodeData.title}`
+    const directory = `LeetCode/${leetcodeData.difficulty}/${leetcodeData.title}`
     const filename = 'Solution.cpp' // customize
     const sourceText = leetcodeData.codeSnippet
     const readmeText = `# Description\n\n ## ${leetcodeData.title}\n\n${formattedDescription}\n\n## Constraints:\n${leetcodeData.constraints.join('\n')}
       `
-    const commitMessage = `Time: () | Memory: ()`
+    const commitMessage = `feat: add solution and README for ${leetcodeData.title}`
 
     let default_branch: string = stats.branches[hook]
     if (isNull(default_branch)) {
