@@ -5,9 +5,4 @@ export interface LeetcodeData {
   codeSnippet: string // Assuming there's a way to identify the code snippet
   language: string // Assuming there's a way to identify the language
   link: string
-  problemId: string
-  time: string
-  timeBeats: string
-  memory: string
-  memoryBeats: string
 }

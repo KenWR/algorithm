@@ -48,16 +48,12 @@ async function upload(
     const stats: Stats = await getStats()
     const formattedDescription = convertImageUrlsToMarkdown(leetcodeData.description);
 
-    const directory = `LeetCode/${leetcodeData.problemId} ${leetcodeData.title.replace(/\s+/g, '-')}`
+    const directory = `LeetCode/${leetcodeData.title}`
     const filename = 'Solution.cpp' // customize
     const sourceText = leetcodeData.codeSnippet
-    const readmeText = `
-      ## ${leetcodeData.title}\n\n
-      ${formattedDescription}\n\n
-      ### Constraints:\n
-      ### ${leetcodeData.constraints.join('\n')}
+    const readmeText = `# Description\n\n **${leetcodeData.title}**\n\n${formattedDescription}\n\n## Constraints:\n${leetcodeData.constraints.join('\n')}
       `
-    const commitMessage = `Time: ${leetcodeData.time}(${leetcodeData.timeBeats}), Space: ${leetcodeData.memory}(${leetcodeData.memoryBeats})`
+    const commitMessage = `Time: () | Memory: ()`
 
     let default_branch: string = stats.branches[hook]
     if (isNull(default_branch)) {
