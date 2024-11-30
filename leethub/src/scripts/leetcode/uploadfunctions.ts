@@ -29,13 +29,15 @@ export async function uploadOneSolveProblemOnGit(
   }
 }
 
-function convertImageUrlsToMarkdown(description: string): string {
-  // 정규 표현식을 사용해 [URL] 형식의 문자열을 ![image](URL) 형식으로 변경
-  return description.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, (match, altText, url) => {
-    const imageName = url.split('/').pop()?.split('.')[0] || 'image'; // 파일명 추출 (확장자 제외)
-    return `![${imageName}](${url})`;
-  });
-}
+const convertToMarkdown = (text: string): string => {
+  return text.replace(
+      /\[(https:\/\/assets[^\s]+\.(jpg|png|svg|gif))\]/g, // URL 조건에 맞는 패턴
+      (match, url) => {
+          const fileName = url.split('/').pop() || 'image';
+          return `![${fileName}](${url})`;
+      }
+  );
+};
 
 async function upload(
   token: string,
@@ -46,12 +48,11 @@ async function upload(
   try {
     const git: GitHub = new GitHub(hook, token)
     const stats: Stats = await getStats()
-    const formattedDescription = convertImageUrlsToMarkdown(leetcodeData.description);
-
-    const directory = `LeetCode/${leetcodeData.title}`
+    const formattedDescription = convertToMarkdown(leetcodeData.description);
+    const directory = `LeetCode/${leetcodeData.questionFrontendId} ${leetcodeData.title}`
     const filename = 'Solution.cpp' // customize
     const sourceText = leetcodeData.codeSnippet
-    const readmeText = `# Description\n\n ##${leetcodeData.title}\n\n${formattedDescription}\n\n## Constraints:\n${leetcodeData.constraints.join('\n')}
+    const readmeText = `# Description\n\n ## ${leetcodeData.title}\n\n${formattedDescription}\n\n## Constraints:\n${leetcodeData.constraints.join('\n')}
       `
     const commitMessage = `Time: () | Memory: ()`
 
