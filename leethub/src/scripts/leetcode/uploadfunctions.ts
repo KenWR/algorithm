@@ -51,7 +51,7 @@ async function upload(
     const directory = `LeetCode/${leetcodeData.title}`
     const filename = 'Solution.cpp' // customize
     const sourceText = leetcodeData.codeSnippet
-    const readmeText = `# Description\n\n **${leetcodeData.title}**\n\n${formattedDescription}\n\n## Constraints:\n${leetcodeData.constraints.join('\n')}
+    const readmeText = `# Description\n\n ##${leetcodeData.title}\n\n${formattedDescription}\n\n## Constraints:\n${leetcodeData.constraints.join('\n')}
       `
     const commitMessage = `Time: () | Memory: ()`
 
