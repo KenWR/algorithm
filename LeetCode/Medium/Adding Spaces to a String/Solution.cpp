@@ -1,5 +1,14 @@
-Input: s = "LeetcodeHelpsMeLearn", spaces = [8,13,15]
-Output: "Leetcode Helps Me Learn"
-Explanation: 
-The indices 8, 13, and 15 correspond to the underlined characters in "LeetcodeHelpsMeLearn".
-We then place spaces before those characters.
+class Solution {
+public:
+    string addSpaces(string s, vector<int>& spaces) {
+        string addedSpacesStr(s.size() + spaces.size(), ' ');
+
+        int spacesIndex = 0;
+        for (int i = 0; i < s.size(); ++i) {
+            if (spacesIndex < spaces.size() && i == spaces[spacesIndex]) spacesIndex += 1;
+            addedSpacesStr[i + spacesIndex] = s[i];
+        }
+
+        return addedSpacesStr;
+    }
+};
