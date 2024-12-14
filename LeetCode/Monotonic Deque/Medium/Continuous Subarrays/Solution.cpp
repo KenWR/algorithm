@@ -10,6 +10,11 @@ public:
         int left = 0;
 
         for (int i = 0; i < nums.size(); i++) { // 윈도우 크기 오른쪽으로 하나씩 늘려가며
+
+            // ==============================
+            // 여기가 Monotonic Deque로 알고리즘에 맞게 단조로운 큐를 관리
+            // 큐에는 최대값, 최소값이 단조롭게 담기며 이 두개의 큐를 이용하여 윈도우 내의 하위 배열 개수를 구한다
+
             // 점점 작아지는 최대값 목록 작성
             while (!maxQ.empty() && nums[maxQ.back()] < nums[i]) {
                 maxQ.pop_back();
@@ -21,6 +26,7 @@ public:
                 minQ.pop_back();
             }
             minQ.push_back(i);
+            // ==============================
 
             // 윈도우 축소 작업: 최대값과 최소값 차이가 2가 넘으면
             while (!maxQ.empty() && !minQ.empty() && nums[maxQ.front()] - nums[minQ.front()] > 2) {
