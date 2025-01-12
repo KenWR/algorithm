@@ -1,4 +1,28 @@
-Input: s = "))()))", locked = "010100"
-Output: true
-Explanation: locked[1] == '1' and locked[3] == '1', so we cannot change s[1] or s[3].
-We change s[0] and s[4] to '(' while leaving s[2] and s[5] unchanged to make s valid.
+class Solution {
+public:
+    bool canBeValid(string s, string locked) {
+        if (s.size() % 2 != 0) return false;
+
+        int openCount = 0, freeCount = 0;
+
+        for (int i = 0; i < s.size(); i++) {
+            if (locked[i] == '0') freeCount++;
+            else if (s[i] == '(') openCount++;
+            else openCount--;
+
+            if (openCount + freeCount < 0) return false;
+        }
+
+        openCount = 0, freeCount = 0;
+
+        for (int i = s.size() - 1; i >= 0; i--) {
+            if (locked[i] == '0') freeCount++;
+            else if (s[i] == ')') openCount++;
+            else openCount--;
+
+            if (openCount + freeCount < 0) return false;
+        }
+
+        return true;
+    }
+};
