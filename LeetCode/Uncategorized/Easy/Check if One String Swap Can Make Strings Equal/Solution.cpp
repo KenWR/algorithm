@@ -18,9 +18,12 @@ public:
             }
         }
 
-        if (diff_count == 0) return true;
-        if (diff_count != 2) return false;
-        if (s1_diff.first == s2_diff.second && s1_diff.second == s2_diff.first) return true;
+        if (diff_count == 0 || 
+        diff_count == 2 && 
+        s1_diff.first == s2_diff.second && 
+        s1_diff.second == s2_diff.first) {
+            return true;
+        }
 
         return false;
     }
