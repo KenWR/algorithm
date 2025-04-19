@@ -11,9 +11,10 @@ public:
         int count_of_fair_pairs = 0;
         auto prev_iter_lower = nums.end();
         for (int i = 0; i < nums.size() - 1; ++i) {
+            auto current = nums.begin() + i;
             if (prev == nums[i]) {
-                if (prev_iter_lower <= nums.begin() + i) {
-                    count_of_fair_pairs = count_of_fair_pairs - 1 < 0 ? 0 : count_of_fair_pairs - 1;
+                if (prev_iter_lower <= current) {
+                    count_of_fair_pairs = std::max(0, count_of_fair_pairs - 1);
                 }
                 answer += count_of_fair_pairs;
                 continue;
@@ -22,8 +23,8 @@ public:
             long long value_lower = lower - nums[i];
             long long value_upper = upper - nums[i];
 
-            auto iter_lower = lower_bound(nums.begin() + i + 1, nums.end(), value_lower);
-            auto iter_upper = upper_bound(nums.begin() + i + 1, nums.end(), value_upper);
+            auto iter_lower = lower_bound(current + 1, nums.end(), value_lower);
+            auto iter_upper = upper_bound(current + 1, nums.end(), value_upper);
 
             count_of_fair_pairs = distance(iter_lower, iter_upper);
             answer += count_of_fair_pairs;
